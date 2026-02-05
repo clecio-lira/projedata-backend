@@ -10,7 +10,11 @@ import java.util.List;
 @Service
 public class RawMaterialService {
 
-    private RawMaterialRepository repo;
+    private final RawMaterialRepository repo;
+
+    public RawMaterialService(RawMaterialRepository repo) {
+        this.repo = repo;
+    }
 
     public List<RawMaterialDTOs.RawMaterialResponseDTO> findAll() {
         return repo.findAll()

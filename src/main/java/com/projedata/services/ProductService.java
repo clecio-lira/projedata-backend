@@ -11,7 +11,11 @@ import java.util.List;
 @Service
 public class ProductService { ;
 
-    private ProductRepository repo;
+    private final ProductRepository repo;
+
+    public ProductService(ProductRepository repo) {
+        this.repo = repo;
+    }
 
     public List<ProductDTOs.ProductResponseDTO> findAll() {
         return repo.findAll(Sort.by("price").descending())
