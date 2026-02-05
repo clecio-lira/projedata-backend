@@ -3,6 +3,7 @@ package com.projedata.services;
 import com.projedata.dtos.ProductDTOs;
 import com.projedata.entities.Product;
 import com.projedata.repositories.ProductRepository;
+import com.projedata.services.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class ProductService { ;
 
     public ProductDTOs.ProductResponseDTO findById(Long id) {
         Product product = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return toResponseDTO(product);
     }
 

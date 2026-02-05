@@ -3,6 +3,7 @@ package com.projedata.services;
 import com.projedata.dtos.RawMaterialDTOs;
 import com.projedata.entities.RawMaterial;
 import com.projedata.repositories.RawMaterialRepository;
+import com.projedata.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class RawMaterialService {
 
     public RawMaterialDTOs.RawMaterialResponseDTO findById(Long id) {
         RawMaterial rm = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Raw material not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Raw material not found"));
         return toResponseDTO(rm);
     }
 
