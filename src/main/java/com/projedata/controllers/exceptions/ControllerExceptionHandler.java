@@ -1,6 +1,7 @@
 package com.projedata.controllers.exceptions;
 
 import com.projedata.services.exceptions.DatabaseException;
+import com.projedata.services.exceptions.DuplicateCodeException;
 import com.projedata.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,18 @@ public class ControllerExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), req.getRequestURI());
         return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DuplicateCodeException.class)
+    public ResponseEntity<StandardError> duplicateCode(DuplicateCodeException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT; // 404
+        StandardError err = new StandardError(
+                Instant.now(),
+                status.value(),
+                "An object with this code already exists.",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 }

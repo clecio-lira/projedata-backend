@@ -3,6 +3,7 @@ package com.projedata.services;
 import com.projedata.dtos.RawMaterialDTOs;
 import com.projedata.entities.RawMaterial;
 import com.projedata.repositories.RawMaterialRepository;
+import com.projedata.services.exceptions.DuplicateCodeException;
 import com.projedata.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class RawMaterialService {
         rm.setCode(dto.code());
         rm.setName(dto.name());
         rm.setStockQuantity(dto.stockQuantity());
+
+        if (repo.existsByCode(dto.code())) {
+            throw new DuplicateCodeException("Raw material with code " + dto.code() + " already registered.");
+        }
 
         return toResponseDTO(repo.save(rm));
     }
