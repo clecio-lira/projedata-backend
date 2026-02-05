@@ -1,0 +1,63 @@
+package com.projedata.services;
+
+import com.projedata.dtos.RawMaterialDTOs;
+import com.projedata.entities.RawMaterial;
+import com.projedata.repositories.RawMaterialRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class RawMaterialService {
+
+    private RawMaterialRepository repo;
+
+    public List<RawMaterialDTOs.RawMaterialResponseDTO> findAll() {
+        return repo.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public RawMaterialDTOs.RawMaterialResponseDTO findById(Long id) {
+        RawMaterial rm = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Raw material not found"));
+        return toResponseDTO(rm);
+    }
+
+    public RawMaterialDTOs.RawMaterialResponseDTO insert(RawMaterialDTOs.RawMaterialRequestDTO dto) {
+        RawMaterial rm = new RawMaterial();
+        rm.setCode(dto.code());
+        rm.setName(dto.name());
+        rm.setStockQuantity(dto.stockQuantity());
+
+        return toResponseDTO(repo.save(rm));
+    }
+
+    public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Raw material not found");
+        }
+        repo.deleteById(id);
+    }
+
+    public RawMaterialDTOs.RawMaterialResponseDTO update(Long id, RawMaterialDTOs.RawMaterialRequestDTO dto) {
+        RawMaterial entity = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Raw material not found"));
+
+        if (dto.code() != null) entity.setCode(dto.code());
+        if (dto.name() != null) entity.setName(dto.name());
+        if (dto.stockQuantity() != null) entity.setStockQuantity(dto.stockQuantity());
+
+        return toResponseDTO(repo.save(entity));
+    }
+
+    private RawMaterialDTOs.RawMaterialResponseDTO toResponseDTO(RawMaterial rm) {
+        return new RawMaterialDTOs.RawMaterialResponseDTO(
+                rm.getId(),
+                rm.getCode(),
+                rm.getName(),
+                rm.getStockQuantity()
+        );
+    }
+}

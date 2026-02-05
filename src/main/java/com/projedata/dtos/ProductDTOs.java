@@ -9,7 +9,9 @@ public class ProductDTOs {
         String name,
         BigDecimal price,
         List<ProductRawMaterialRequestDTO> rawMaterials
-    ) {}
+    ) {
+
+    }
 
     public record ProductRawMaterialRequestDTO(
             Long rawMaterialId,

@@ -1,52 +1,69 @@
 package com.projedata.services;
 
+import com.projedata.dtos.ProductDTOs;
 import com.projedata.entities.Product;
 import com.projedata.repositories.ProductRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService { ;
+
     private ProductRepository repo;
 
-    public List<Product> findAll() {
-        return repo.findAll(Sort.by("price").descending());
+    public List<ProductDTOs.ProductResponseDTO> findAll() {
+        return repo.findAll(Sort.by("price").descending())
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
     }
 
-    public Product findById(Long id) {
-        return repo.getReferenceById(id);
+    public ProductDTOs.ProductResponseDTO findById(Long id) {
+        Product product = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return toResponseDTO(product);
     }
 
-    public Product insert(Product obj) {
-        return repo.save(obj);
+    public ProductDTOs.ProductResponseDTO insert(ProductDTOs.ProductRequestDTO dto) {
+
+        Product product = new Product();
+        product.setCode(dto.code());
+        product.setName(dto.name());
+        product.setPrice(dto.price());
+
+        Product saved = repo.save(product);
+
+        return toResponseDTO(saved);
     }
 
     public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Product not found");
+        }
         repo.deleteById(id);
     }
 
-    public Product update(Long id, Product obj) {
-            Product entity = repo.getReferenceById(id);
-            updateData(entity, obj);
-            return repo.save(entity);
+    public ProductDTOs.ProductResponseDTO update(Long id, ProductDTOs.ProductRequestDTO dto) {
 
+        Product entity = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (dto.code() != null) entity.setCode(dto.code());
+        if (dto.name() != null) entity.setName(dto.name());
+        if (dto.price() != null) entity.setPrice(dto.price());
+
+        Product saved = repo.save(entity);
+        return toResponseDTO(saved);
     }
 
-    private void updateData(Product entity, Product obj) {
-        if (obj.getCode() != null) {
-            entity.setCode(obj.getCode());
-        }
-        if (obj.getName() != null) {
-            entity.setName(obj.getName());
-        }
-        if (obj.getPrice() != null) {
-            entity.setPrice(obj.getPrice());
-        }
-        if (obj.getRawMaterials() != null) {
-            entity.setRawMaterials(obj.getRawMaterials());
-        }
+    private ProductDTOs.ProductResponseDTO toResponseDTO(Product product) {
+        return new ProductDTOs.ProductResponseDTO(
+                product.getId(),
+                product.getCode(),
+                product.getName(),
+                product.getPrice()
+        );
     }
 }
