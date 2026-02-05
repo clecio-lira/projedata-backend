@@ -14,6 +14,13 @@ public class ProductionDTOs {
 
     public record ProductionResponse(
             BigDecimal totalProductionValue,
-            List<ProductionItemResponse> products
+            List<ProductionItemResponse> produced,
+            List<NotProducedItemResponse> notProduced
+    ) {}
+
+    public record NotProducedItemResponse(
+            Long productId,
+            String productName,
+            String reason
     ) {}
 }
