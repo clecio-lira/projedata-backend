@@ -92,10 +92,11 @@ public class ProductService { ;
         Product product = repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        if (repo.existsByCode(dto.code())) {
-            throw new DuplicateCodeException(
-                    "Product with code " + dto.code() + " already registered."
-            );
+        if (dto.code() != null && !dto.code().equals(product.getCode())) {
+            if (repo.existsByCode(dto.code())) {
+                throw new DuplicateCodeException("Product with code " + dto.code() + " already registered.");
+            }
+            product.setCode(dto.code());
         }
 
         if (dto.code() != null) product.setCode(dto.code());

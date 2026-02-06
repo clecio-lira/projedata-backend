@@ -55,8 +55,11 @@ public class RawMaterialService {
         RawMaterial entity = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Raw material not found"));
 
-        if (repo.existsByCode(dto.code())) {
-            throw new DuplicateCodeException("Raw material with code " + dto.code() + " already registered.");
+        if (dto.code() != null && !dto.code().equals(entity.getCode())) {
+            if (repo.existsByCode(dto.code())) {
+                throw new DuplicateCodeException("Product with code " + dto.code() + " already registered.");
+            }
+            entity.setCode(dto.code());
         }
 
         if (dto.code() != null) entity.setCode(dto.code());
