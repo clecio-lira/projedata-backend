@@ -4,7 +4,7 @@ spring:
     baseline-on-migrate: true
   datasource:
     url: jdbc:postgresql://aws-0-us-west-2.pooler.supabase.com:6543/postgres?sslmode=require&prepareThreshold=0
-    username: postgres.dhdroetlsadpfrwsyfeu
+    username: postgres.${DB_USER}
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
