@@ -114,7 +114,7 @@ Abaixo estão listados todos os recursos disponíveis na aplicação, organizado
 | **PUT**    | `/{id}`  | Atualiza as informações de uma matéria-prima existente. |
 | **DELETE** | `/{id}`  | Remove permanentemente uma matéria-prima.               |
 
----
+## ![Print do Swagger Raw Material](screenshots/raw-material.png)
 
 ### 🍏 Produtos
 
@@ -128,7 +128,7 @@ Abaixo estão listados todos os recursos disponíveis na aplicação, organizado
 | **PUT**    | `/{id}`  | Atualiza os dados de um produto existente.    |
 | **DELETE** | `/{id}`  | Remove um produto do catálogo.                |
 
----
+## ![Print do Swagger Product](screenshots/product.png)
 
 ### ⚙️ Produção
 
@@ -138,7 +138,7 @@ Abaixo estão listados todos os recursos disponíveis na aplicação, organizado
 | :------ | :------------ | :------------------------------------------------------------- |
 | **GET** | `/suggestion` | Analisa o estoque e retorna sugestões de produção inteligente. |
 
----
+## ![Print do Swagger Production](screenshots/production.png)
 
 ## 🛠 Como testar os endpoints?
 
