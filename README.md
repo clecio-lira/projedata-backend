@@ -57,7 +57,7 @@ Antes de iniciar a aplicação, configure as seguintes variáveis no seu sistema
 ## ▶️ Como Rodar o Projeto
 
 ```bash
-git clone https://github.com/seu-usuario/projedata-backend.git
+git clone https://github.com/clecio-lira/projedata-backend.git
 cd projedata-backend
 ```
 
