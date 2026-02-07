@@ -48,6 +48,7 @@ Antes de iniciar a aplicação, configure as seguintes variáveis no seu sistema
 | `DB_URL`      | URL de conexão com o PostgreSQL | `jdbc:postgresql://localhost:5432/nome_db` |
 | `DB_USER`     | Usuário do banco de dados       | `meu_usuario`                              |
 | `DB_PASSWORD` | Senha do banco de dados         | `sua_senha_secreta`                        |
+| `IP`          | Endereço do front end           | `http://localhost:3000`                    |
 
 > ⚠️ **Observação:** o prefixo `postgres.` do driver já é fixo na configuração do projeto.
 
@@ -91,6 +92,7 @@ docker run -p 8080:8080 \
   -e DB_URL=jdbc:postgresql://host.docker.internal:5432/nome_db \
   -e DB_USER=seu_usuario \
   -e DB_PASSWORD=sua_senha \
+  -e IP=endereco_front_end \
   projedata-backend
 ```
 
